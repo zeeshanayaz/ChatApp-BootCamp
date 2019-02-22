@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "497784320042",
+    "firebase_url": "https://chatapp-9a583.firebaseio.com",
+    "project_id": "chatapp-9a583",
+    "storage_bucket": "chatapp-9a583.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:497784320042:android:0d765c06f144bf96",
+        "android_client_info": {
+          "package_name": "com.zeeshan.chatapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "497784320042-8bmc2gk857uhc6g7pli3ae8hha5hfh8v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCeNPmTTp4E1f5k75l1iJ_ZNZXmT00NUFY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

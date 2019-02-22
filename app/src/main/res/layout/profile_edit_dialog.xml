@@ -1,0 +1,33 @@
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:elevation="4dp">
+
+    <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_edit_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <EditText
+                android:id="@+id/input_edit_profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryText"
+                tools:hint="@string/enter_new_value" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+            android:id="@+id/btn_edit_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/update"
+            android:layout_marginTop="20dp"
+            style="@style/ButtonStyle"
+            android:elevation="5dp"
+            android:translationZ="10dp"
+            android:stateListAnimator="@null" />
+</LinearLayout>
