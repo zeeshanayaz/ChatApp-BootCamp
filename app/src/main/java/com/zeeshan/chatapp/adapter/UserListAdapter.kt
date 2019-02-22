@@ -5,9 +5,10 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.zeeshan.chatapp.R
 import com.zeeshan.chatapp.model.User
-import kotlinx.android.synthetic.main.user_layout.view.*
+
 
 class UserListAdapter (var ctx : Context, var dataList : ArrayList<User>): RecyclerView.Adapter<UserListAdapter.MyViewHolder>(){
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): MyViewHolder {
@@ -30,7 +31,7 @@ class UserListAdapter (var ctx : Context, var dataList : ArrayList<User>): Recyc
 
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        val userName = view.cardUserName
-        val email = view.cardUserEmail
+        val userName = view.findViewById<TextView>(R.id.cardUserName)
+        val email = view.findViewById<TextView>(R.id.cardUserEmail)
     }
 }

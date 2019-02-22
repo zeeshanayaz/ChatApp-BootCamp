@@ -44,6 +44,7 @@ class UserListFragment : Fragment() {
         recyclerView.adapter = userViewAdapter
 
         fetchDataFromFirebase()
+
     }
 
     private fun fetchDataFromFirebase() {
