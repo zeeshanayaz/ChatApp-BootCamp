@@ -105,6 +105,8 @@ class DashboardActivity : AppCompatActivity() {
                 val intent = Intent(this@DashboardActivity, MainActivity::class.java)
                 startActivity(intent)
 
+                finish()
+
                 val user = User("","","","","","")
                 AppPref(this@DashboardActivity).setUser(user)
             }

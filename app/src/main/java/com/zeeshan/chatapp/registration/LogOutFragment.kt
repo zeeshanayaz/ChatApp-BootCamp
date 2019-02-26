@@ -40,12 +40,16 @@ class LogOutFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         auth = FirebaseAuth.getInstance();
-        progress = ProgressDialog(activity)
+        progress = ProgressDialog(activity!!)
         databaseRef = FirebaseDatabase.getInstance().reference
 
         createUserBtn.setOnClickListener {
+
+//            progress.setTitle("Registering user...")
+            progress.setMessage("Registering user...")
             progress.show()
-            registerUser(createTextEmailAddress.text.trim().toString(), createTextPassword.text.toString())
+
+            registerUser(createTextUserName.text.trim().toString(),createTextEmailAddress.text.trim().toString(), createTextPassword.text.toString())
             Snackbar.make(view,"Connecting to Server",Snackbar.LENGTH_SHORT).setAction("Action",null).show()
         }
 
@@ -55,14 +59,14 @@ class LogOutFragment : Fragment() {
     }
 
 
-    private fun registerUser(email: String, password: String) {
+    private fun registerUser(userName: String, email: String, password: String) {
         if (!email.isNullOrEmpty() && !password.isNullOrEmpty()) {
             auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
                 if (it.isSuccessful) {
 
                     val authResult = it.result
                     authResult?.user?.uid
-                    saveUserDataToFirebase(authResult?.user?.uid, "", email, password, "")
+                    saveUserDataToFirebase(authResult?.user?.uid, userName, email, password, "")
                     progress.dismiss()
                     Toast.makeText(activity, "Success", Toast.LENGTH_LONG).show()
                     startActivity(Intent(activity, DashboardActivity::class.java))
@@ -85,7 +89,7 @@ class LogOutFragment : Fragment() {
         password: String,
         userBio: String
     ) {
-        val user = User("$uid", "", "$email", "$password", "", "")
+        val user = User("$uid", "$userName", "$email", "$password", "", "")
         databaseRef.child("Users").child("$uid").setValue(user)
 
         AppPref(activity!!).setUser(user)
