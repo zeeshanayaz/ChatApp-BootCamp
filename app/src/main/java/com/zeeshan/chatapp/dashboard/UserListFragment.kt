@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.zeeshan.chatapp.R
@@ -19,8 +18,8 @@ import com.zeeshan.chatapp.model.User
 class UserListFragment : Fragment() {
 
     private var userList = ArrayList<User>()
-    private lateinit var userViewAdapter : UserListAdapter
-    private lateinit var databaseRef : DatabaseReference
+    private lateinit var userViewAdapter: UserListAdapter
+    private lateinit var databaseRef: DatabaseReference
     val curUser = FirebaseAuth.getInstance().currentUser
 
     override fun onCreateView(
@@ -42,9 +41,9 @@ class UserListFragment : Fragment() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.dashboardAllUserListRecycler)
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
-        userViewAdapter = UserListAdapter(activity!!, userList){
-            val chatIntent = Intent (activity!!, ChatActivity::class.java)
-            chatIntent.putExtra("user",it)
+        userViewAdapter = UserListAdapter(activity!!, userList) {
+            val chatIntent = Intent(activity!!, ChatActivity::class.java)
+            chatIntent.putExtra("user", it)
             startActivity(chatIntent)
 //            Toast.makeText(activity!!, "Clicked ${it.userEmail}", Toast.LENGTH_SHORT).show()
         }
@@ -56,7 +55,7 @@ class UserListFragment : Fragment() {
     }
 
     private fun fetchDataFromFirebase() {
-        databaseRef.child("Users").addChildEventListener(object : ChildEventListener{
+        databaseRef.child("Users").addChildEventListener(object : ChildEventListener {
             override fun onCancelled(dataSnapshot: DatabaseError) {
 
             }
@@ -66,15 +65,14 @@ class UserListFragment : Fragment() {
             }
 
             override fun onChildChanged(dataSnapshot: DataSnapshot, p1: String?) {
-                if (dataSnapshot != null){
+                if (dataSnapshot != null) {
                     val user = dataSnapshot.getValue(User::class.java)
-                    userList.forEachIndexed{index, userObj ->
-                        if (userObj.equals(user)){
+                    userList.forEachIndexed { index, userObj ->
+                        if (userObj.equals(user)) {
                             println("Matched")
                             userList[index] = user!!
                             userViewAdapter.notifyDataSetChanged()
-                        }
-                        else{
+                        } else {
                             println("Not Matched")
                         }
                     }
@@ -82,11 +80,10 @@ class UserListFragment : Fragment() {
             }
 
             override fun onChildAdded(dataSnapshot: DataSnapshot, p1: String?) {
-                if(dataSnapshot != null){
+                if (dataSnapshot != null) {
                     val user = dataSnapshot.getValue((User::class.java))
-                    if (user!=null) {
-                        if (!user.userID.equals(curUser?.uid))
-                        {
+                    if (user != null) {
+                        if (!user.userID.equals(curUser?.uid)) {
                             println(user.toString())
                             userList.add(user)
                             userViewAdapter.notifyDataSetChanged()
@@ -97,16 +94,15 @@ class UserListFragment : Fragment() {
             }
 
             override fun onChildRemoved(dataSnapshot: DataSnapshot) {
-                if (dataSnapshot != null){
+                if (dataSnapshot != null) {
                     val user = dataSnapshot.getValue((User::class.java))
-                    var position : Int = 0
+                    var position: Int = 0
 
                     userList.forEachIndexed { index, userObj ->
-                        if (userObj.equals(user)){
+                        if (userObj.equals(user)) {
                             println("Matched")
                             position = index
-                        }
-                        else{
+                        } else {
                             println("Not Matched")
                         }
                         userList.removeAt(position)

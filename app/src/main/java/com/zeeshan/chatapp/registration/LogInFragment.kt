@@ -62,8 +62,8 @@ class LogInFragment : Fragment() {
         loginLoginButton.setOnClickListener {
             if (!textEmailAddress.text.trim().toString().isNullOrEmpty()){
                 if (!textPassword.text.trim().toString().isNullOrEmpty()){
-                    Snackbar.make(view,"Trying to connect Server, Please Wait...", Snackbar.LENGTH_SHORT).setAction("Action",null).show()
                     authenticateUser(textEmailAddress.text.toString(), textPassword.text.toString())
+                    Snackbar.make(view,"Connecting to Server",Snackbar.LENGTH_SHORT).setAction("Action",null).show()
                 }
                 else{
                     textPassword.setError("Invalid Password")

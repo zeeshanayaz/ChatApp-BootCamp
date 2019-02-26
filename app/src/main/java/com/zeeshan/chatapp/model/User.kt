@@ -1,9 +1,15 @@
 package com.zeeshan.chatapp.model
 
-import com.google.firebase.database.Exclude
 import java.io.Serializable
 
-data class User(var userID : String = "", var userName : String? = null, var userEmail : String = "", var password: String = "", var userBio : String? = null, var profileImageUrl: String? = "") : Serializable{
+data class User(
+    var userID: String = "",
+    var userName: String? = null,
+    var userEmail: String = "",
+    var password: String = "",
+    var userBio: String? = null,
+    var profileImageUrl: String? = ""
+) : Serializable {
 
     override fun toString(): String {
         return "${userEmail.toString()}"
@@ -20,14 +26,4 @@ data class User(var userID : String = "", var userName : String? = null, var use
 
         return true
     }
-//    @Exclude
-//    fun toMap(): Map<String, Any?>{
-//        return mapOf(
-//            "userID" to userID,
-//            "userName" to userName,
-//            "userEmail" to userEmail,
-//            "password" to password,
-//            "userBio" to userBio
-//        )
-//    }
 }

@@ -23,5 +23,6 @@
     <string name="message">message:</string>
     <string name="sender_message">Sender Message</string>
     <string name="reciever_message">Reciever Message</string>
+    <string name="edit_detail_icon">Edit Detail Icon</string>
 
 </resources>

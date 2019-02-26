@@ -25,8 +25,8 @@ import kotlinx.android.synthetic.main.fragment_log_out.*
  */
 class LogOutFragment : Fragment() {
 
-    private lateinit var auth : FirebaseAuth
-    private lateinit var progress : ProgressDialog
+    private lateinit var auth: FirebaseAuth
+    private lateinit var progress: ProgressDialog
     private lateinit var databaseRef: DatabaseReference
 
     override fun onCreateView(
@@ -45,8 +45,8 @@ class LogOutFragment : Fragment() {
 
         createUserBtn.setOnClickListener {
             progress.show()
-            registerUser( createTextEmailAddress.text.trim().toString(), createTextPassword.text.toString())
-//            Snackbar.make(view,"Create User Button Clicked", Snackbar.LENGTH_SHORT).setAction("Action",null).show()
+            registerUser(createTextEmailAddress.text.trim().toString(), createTextPassword.text.toString())
+            Snackbar.make(view,"Connecting to Server",Snackbar.LENGTH_SHORT).setAction("Action",null).show()
         }
 
         createLoginBtn.setOnClickListener {
@@ -55,30 +55,24 @@ class LogOutFragment : Fragment() {
     }
 
 
-
     private fun registerUser(email: String, password: String) {
-        if (!email.isNullOrEmpty() && !password.isNullOrEmpty() )
-        {
+        if (!email.isNullOrEmpty() && !password.isNullOrEmpty()) {
             auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
-                if(it.isSuccessful){
+                if (it.isSuccessful) {
 
                     val authResult = it.result
                     authResult?.user?.uid
-                    saveUserDataToFirebase(authResult?.user?.uid,"", email, password, "")
+                    saveUserDataToFirebase(authResult?.user?.uid, "", email, password, "")
                     progress.dismiss()
                     Toast.makeText(activity, "Success", Toast.LENGTH_LONG).show()
                     startActivity(Intent(activity, DashboardActivity::class.java))
 
-//
-                }
-                else{
+                } else {
                     progress.dismiss()
                     Toast.makeText(activity, "User not created ${it.exception.toString()}", Toast.LENGTH_LONG).show()
                 }
             }
-        }
-        else
-        {
+        } else {
             createTextEmailAddress.setError("Error")
             createTextPassword.setError("Error")
         }
@@ -90,13 +84,11 @@ class LogOutFragment : Fragment() {
         email: String,
         password: String,
         userBio: String
-    ) {view
+    ) {
         val user = User("$uid", "", "$email", "$password", "", "")
         databaseRef.child("Users").child("$uid").setValue(user)
 
         AppPref(activity!!).setUser(user)
-
-        Snackbar.make(view!!, "User Created in Database", Snackbar.LENGTH_SHORT).setAction("Action", null).show()
     }
 
 }

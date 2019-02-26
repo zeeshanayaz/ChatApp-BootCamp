@@ -43,7 +43,7 @@
                         android:textColor="@color/colorPrimary"
                         android:textSize="20sp"
                         tools:text="@string/user_name"
-                        android:id="@+id/cardUserName"
+                        android:id="@+id/profileCardUserEmail"
                         />
 
                 <TextView

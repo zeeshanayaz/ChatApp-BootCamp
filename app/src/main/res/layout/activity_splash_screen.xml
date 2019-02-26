@@ -26,8 +26,9 @@
                 android:layout_height="wrap_content"
                 android:text="Welcome to the Chat App"
                 android:textAlignment="center"
-                android:textSize="20dp"
-                />
+                android:textColor="@color/white"
+                android:textSize="25dp"
+                android:fontFamily="@font/roboto_medium"/>
 
         <ProgressBar
                 style="?android:attr/progressBarStyle"
@@ -35,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:id="@+id/progressBar"
-                android:progressTint="@color/white"/>
+                android:theme="@style/AppTheme.WhiteAccent"/>
 
     </LinearLayout>
 

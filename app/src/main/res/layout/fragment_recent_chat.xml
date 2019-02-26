@@ -10,7 +10,9 @@
     <!-- TODO: Update blank fragment layout -->
     <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textAlignment="center"
             android:text="Recent Chat Fragment"/>
 
     <android.support.v7.widget.RecyclerView

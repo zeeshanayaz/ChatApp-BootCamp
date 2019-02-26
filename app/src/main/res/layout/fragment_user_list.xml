@@ -7,12 +7,6 @@
         tools:context=".dashboard.UserListFragment"
         android:orientation="vertical">
 
-    <!--&lt;!&ndash; TODO: Update blank fragment layout &ndash;&gt;-->
-    <!--<TextView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="User List Fragment"/>-->
-
     <android.support.v7.widget.RecyclerView
             android:id="@+id/dashboardAllUserListRecycler"
             android:layout_width="match_parent"

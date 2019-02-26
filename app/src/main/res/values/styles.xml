@@ -18,4 +18,8 @@
     </style>
     <style name="SplashScreenTheme" parent="Theme.AppCompat.Light.NoActionBar"/>
 
+    <style name="AppTheme.WhiteAccent">
+        <item name="colorAccent">@color/white</item> <!-- Whatever color you want-->
+    </style>
+
 </resources>

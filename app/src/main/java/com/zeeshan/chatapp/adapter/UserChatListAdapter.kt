@@ -57,14 +57,6 @@ class UserChatListAdapter
         fun bindUser(msg: ChatMessage){
             chatMsg.text = msg.msg
 
-////            val stamp = Timestamp(System.currentTimeMillis())
-//            val stamp = msg.timestamp
-//            val date = Date(stamp!!.getTime())
-////                println(date)
-//            Log.v("Date", date.toString())
-
-//            msgTime.text = msg.timestamp.toString()
-
             val date = Date(msg.timestamp!!)
             val format = SimpleDateFormat("MMM d, yyyy h:mm a")   //"yyyy.MM.dd HH:mm"
             val time = format.format(date)

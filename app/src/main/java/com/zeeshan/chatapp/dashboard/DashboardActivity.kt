@@ -19,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.zeeshan.chatapp.R
 import com.zeeshan.chatapp.model.User
 import com.zeeshan.chatapp.registration.MainActivity
+import com.zeeshan.chatapp.utils.AppPref
 
 class DashboardActivity : AppCompatActivity() {
 
@@ -103,6 +104,9 @@ class DashboardActivity : AppCompatActivity() {
                 FirebaseAuth.getInstance().signOut()
                 val intent = Intent(this@DashboardActivity, MainActivity::class.java)
                 startActivity(intent)
+
+                val user = User("","","","","","")
+                AppPref(this@DashboardActivity).setUser(user)
             }
         })
 

@@ -4,9 +4,9 @@ import android.content.Context
 import com.google.gson.Gson
 import com.zeeshan.chatapp.model.User
 
-class AppPref (var context : Context){
+class AppPref(var context: Context) {
 
-    fun getUser(): User?{
+    fun getUser(): User? {
         val sharedPreferences = context.getSharedPreferences("App", 0)
         val userString = sharedPreferences.getString("user", null)
         if (userString != null) {
@@ -17,7 +17,7 @@ class AppPref (var context : Context){
         }
     }
 
-    fun setUser(user: User){
+    fun setUser(user: User) {
         val sharedPreferences = context.getSharedPreferences("App", 0)
         val edit = sharedPreferences.edit()
         edit.putString("user", Gson().toJson(user))

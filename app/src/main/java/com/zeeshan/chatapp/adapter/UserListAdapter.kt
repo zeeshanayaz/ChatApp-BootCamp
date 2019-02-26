@@ -26,19 +26,13 @@ class UserListAdapter (
     }
 
     override fun onBindViewHolder(viewHolder: MyViewHolder, position: Int) {
-//        val data = dataList.get(position)
-//        if(data != null){
-//            viewHolder.userName.text = data.userName
-//            viewHolder.email.text = data.userEmail
-//
-//        }
         viewHolder.bindUser(dataList[position])
     }
 
 
     inner class MyViewHolder(var view: View) : RecyclerView.ViewHolder(view) {
 
-        val userName = view.findViewById<TextView>(R.id.cardUserName)
+        val userName = view.findViewById<TextView>(R.id.profileCardUserEmail)
         val email = view.findViewById<TextView>(R.id.cardUserEmail)
 
         fun bindUser(user: User){
@@ -47,8 +41,6 @@ class UserListAdapter (
 
             view.setOnClickListener{
                 itemClick(user)
-//                view.itemClick(user)
-
             }
 
         }

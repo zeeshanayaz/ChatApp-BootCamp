@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorPrimaryText"
                 android:hint="@string/password"
-                android:inputType="textEmailAddress"/>
+                android:inputType="textPassword"/>
     </android.support.design.widget.TextInputLayout>
 
     <Button

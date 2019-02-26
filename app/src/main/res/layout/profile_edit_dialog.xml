@@ -8,24 +8,38 @@
         android:elevation="4dp">
 
     <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_layout_edit_profile"
+            android:id="@+id/input_layout_edit_name_profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
         <EditText
-                android:id="@+id/input_edit_profile"
+                android:id="@+id/inputProfileUserName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorPrimaryText"
-                tools:hint="@string/enter_new_value"/>
+                android:hint="@string/user_name"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_edit_bio_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <EditText
+                android:id="@+id/inputProfileUserBio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryText"
+                android:hint="@string/bio"/>
 
     </android.support.design.widget.TextInputLayout>
 
     <Button
-            android:id="@+id/btn_edit_profile"
+            android:id="@+id/changeProfileData"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/update"
+            android:text="Change Profile Data"
             android:layout_marginTop="20dp"
             style="@style/ButtonStyle"
             android:elevation="5dp"
