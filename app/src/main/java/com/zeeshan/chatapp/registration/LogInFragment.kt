@@ -11,8 +11,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.zeeshan.chatapp.R
 import com.zeeshan.chatapp.dashboard.DashboardActivity
+import com.zeeshan.chatapp.model.User
+import com.zeeshan.chatapp.utils.AppPref
 import kotlinx.android.synthetic.main.fragment_log_in.*
 
 /**
@@ -22,6 +28,7 @@ import kotlinx.android.synthetic.main.fragment_log_in.*
 class LogInFragment : Fragment() {
 
     private lateinit var auth: FirebaseAuth
+    val mDatabase = FirebaseDatabase.getInstance()
     private lateinit var progress: ProgressDialog
 
     override fun onCreateView(
@@ -73,12 +80,36 @@ class LogInFragment : Fragment() {
     private fun authenticateUser(email: String, password: String) {
 
             progress.show()
+            progress.setTitle("Signing to App.")
+            progress.setMessage("Please wait, Signing to the App..")
             progress.setCancelable(false)
 
             auth.signInWithEmailAndPassword(email,password)
                 .addOnSuccessListener {
-                    progress.dismiss()
-                    startActivity(Intent(activity, DashboardActivity::class.java))
+
+                    mDatabase.reference.child("Users").child(it.user.uid)
+                        .addListenerForSingleValueEvent(object : ValueEventListener{
+                            override fun onCancelled(p0: DatabaseError) {
+
+                            }
+
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                if (dataSnapshot.exists()){
+                                    val user = dataSnapshot.getValue(User::class.java)
+                                    if (user != null){
+                                        AppPref(activity!!).setUser(user)
+                                        progress.dismiss()
+                                        startActivity(Intent(activity, DashboardActivity::class.java))
+                                    }
+                                }
+                                else{
+                                    progress.dismiss()
+                                    Toast.makeText(activity, "Error in signin ${it.toString()}", Toast.LENGTH_LONG).show()
+                                }
+                            }
+
+                        })
+
                 }
                 .addOnFailureListener {
                     progress.dismiss()

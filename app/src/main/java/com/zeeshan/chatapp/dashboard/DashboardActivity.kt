@@ -17,7 +17,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.zeeshan.chatapp.R
-import com.zeeshan.chatapp.adapter.UserListAdapter
 import com.zeeshan.chatapp.model.User
 import com.zeeshan.chatapp.registration.MainActivity
 
@@ -32,7 +31,10 @@ class DashboardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
 
-        supportFragmentManager.beginTransaction().add(R.id.dashboardContainer, UserListFragment()).commit()
+        supportFragmentManager
+            .beginTransaction()
+            .add(R.id.dashboardContainer, UserListFragment())
+            .commit()
 
         val user = FirebaseAuth.getInstance().currentUser
         databaseRef = FirebaseDatabase.getInstance().reference

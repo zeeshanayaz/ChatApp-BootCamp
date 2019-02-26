@@ -1,8 +1,9 @@
 package com.zeeshan.chatapp.model
 
 import com.google.firebase.database.Exclude
+import java.io.Serializable
 
-data class User(var userID : String = "", var userName : String? = null, var userEmail : String = "", var password: String = "", var userBio : String? = null) {
+data class User(var userID : String = "", var userName : String? = null, var userEmail : String = "", var password: String = "", var userBio : String? = null, var profileImageUrl: String? = "") : Serializable{
 
     override fun toString(): String {
         return "${userEmail.toString()}"

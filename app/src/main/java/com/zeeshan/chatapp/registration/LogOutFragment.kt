@@ -13,10 +13,10 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-
 import com.zeeshan.chatapp.R
 import com.zeeshan.chatapp.dashboard.DashboardActivity
 import com.zeeshan.chatapp.model.User
+import com.zeeshan.chatapp.utils.AppPref
 import kotlinx.android.synthetic.main.fragment_log_out.*
 
 /**
@@ -91,10 +91,12 @@ class LogOutFragment : Fragment() {
         password: String,
         userBio: String
     ) {view
-        val user = User("$uid", "", "$email", "$password", "")
+        val user = User("$uid", "", "$email", "$password", "", "")
         databaseRef.child("Users").child("$uid").setValue(user)
 
-        Snackbar.make(view!!, "User Created in Databasse", Snackbar.LENGTH_SHORT).setAction("Action", null).show()
+        AppPref(activity!!).setUser(user)
+
+        Snackbar.make(view!!, "User Created in Database", Snackbar.LENGTH_SHORT).setAction("Action", null).show()
     }
 
 }
