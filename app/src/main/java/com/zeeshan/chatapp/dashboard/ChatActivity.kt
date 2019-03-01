@@ -18,6 +18,7 @@ import com.zeeshan.chatapp.utils.AppPref
 import kotlinx.android.synthetic.main.activity_chat.*
 import java.sql.Timestamp
 import java.util.*
+import kotlin.math.log
 
 class ChatActivity : AppCompatActivity() {
 
@@ -51,7 +52,12 @@ class ChatActivity : AppCompatActivity() {
         chatAdapter = UserChatListAdapter(this@ChatActivity, userChatList)
         chatMessageListRecycler.adapter = chatAdapter
 
+//        Log.v("Chat","${userChatList.size - 1}")
+//        chatMessageListRecycler.scrollToPosition(userChatList.size - 1)
+
         recieveMessages()
+
+//        (chatMessageListRecycler.layoutManager as LinearLayoutManager).scrollToPosition(userChatList.lastIndex)
 
         sendMessageButton.setOnClickListener {
             if (!messageTextField.text.trim().isNullOrEmpty()){
@@ -109,6 +115,7 @@ class ChatActivity : AppCompatActivity() {
                         val value = dataSnapshot.getValue(ChatMessage::class.java)
                         if (value != null) {
                             userChatList.add(value)
+                            chatMessageListRecycler.scrollToPosition(userChatList.size - 1)
                             chatAdapter.notifyDataSetChanged()
 
                         }

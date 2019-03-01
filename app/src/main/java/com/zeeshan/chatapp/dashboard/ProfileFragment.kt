@@ -1,6 +1,5 @@
 package com.zeeshan.chatapp.dashboard
 
-
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.ProgressDialog
@@ -8,23 +7,23 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
+import android.support.v4.widget.CircularProgressDrawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
-
 import com.zeeshan.chatapp.R
 import com.zeeshan.chatapp.model.User
 import com.zeeshan.chatapp.utils.AppPref
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.profile_edit_dialog.*
 import kotlinx.android.synthetic.main.profile_edit_dialog.view.*
-import java.util.*
 
 /**
  * A simple [Fragment] subclass.
@@ -33,11 +32,10 @@ import java.util.*
 class ProfileFragment : Fragment() {
 
 
-
     val user = FirebaseAuth.getInstance().currentUser
-    private lateinit var databaseRef : DatabaseReference
-    var selectedPhotoUri : Uri? = null
-    private lateinit var progress : ProgressDialog
+    private lateinit var databaseRef: DatabaseReference
+    var selectedPhotoUri: Uri? = null
+    private lateinit var progress: ProgressDialog
 //    private lateinit var userData : User
 
 
@@ -57,7 +55,7 @@ class ProfileFragment : Fragment() {
 //        userData = AppPref(activity!!).getUser()
         val userRef = databaseRef.child("Users").child(user!!.uid)
 
-        userRef.addValueEventListener(object : ValueEventListener{
+        userRef.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(dataSnapshot: DatabaseError) {
 
             }
@@ -65,25 +63,33 @@ class ProfileFragment : Fragment() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val userData = dataSnapshot.getValue(User::class.java)
 
-                if (!userData?.userName.isNullOrEmpty())
-                {
+                if (!userData?.userName.isNullOrEmpty()) {
                     profileUserNameText!!.text = userData?.userName.toString()
-                }
-                else
-                {
-                    profileUserNameText.text = "user name"
+                } else {
+                    profileUserNameText.setText("user name")
                     profileUserNameText.setTextColor(resources.getColor(R.color.colorSecondaryText))
                 }
                 profileCardUserEmail.text = userData?.userEmail.toString()
 
-                if (!userData?.userBio.isNullOrEmpty())
-                {
+                if (!userData?.userBio.isNullOrEmpty()) {
                     profileBioTxt.text = userData?.userBio.toString()
+                } else {
+                    profileBioTxt.setText("No Bio Added")
+//                    profileBioTxt.text = "  "
+                    profileBioTxt.setTextColor(resources.getColor(R.color.colorSecondaryText))
                 }
-                else
-                {
-                    profileBioTxt.text = "No Bio Added  `"
-                        profileBioTxt.setTextColor(resources.getColor(R.color.colorSecondaryText))
+                if (!userData?.profileImageUrl.isNullOrEmpty()){
+
+//                    Loading User Image from Download URi using Glide Library
+                    profileSeletPhotoBtn.alpha = 0f
+
+                    Glide.with(activity!!).applyDefaultRequestOptions(RequestOptions().apply(){
+                        placeholder(CircularProgressDrawable(activity!!).apply {
+                            strokeWidth = 2f
+                            centerRadius = 50f
+                            start()
+                        })
+                    }).load(userData?.profileImageUrl).into(profileImageImageView)
                 }
             }
 
@@ -99,32 +105,32 @@ class ProfileFragment : Fragment() {
 //            Snackbar.make(view, "Select Photo", Snackbar.LENGTH_SHORT).setAction("Action", null).show()
         }
 
-        profileUpdateBtn.setOnClickListener {
-            Log.d("ProfileFragment", "Update Button Pressed")
+//        profileUpdateBtn.setOnClickListener {
+//            Log.d("ProfileFragment", "Update Button Pressed")
+//
+//            progress.show()
+//            progress.setTitle("Updating...")
+//            progress.setCancelable(false)
+//
+//            if (selectedPhotoUri != null)
+//            {
+//                Log.d("ProfileFragment", "Uploading Image to Firebase Storage")
+//                uploadImageToFirebase()
+//
+//
+//                Log.d("ProfileFragment", "Progress Bar Dismissed")
+//                progress.dismiss()
+//                Snackbar.make(view, "Profile Updated", Snackbar.LENGTH_SHORT).setAction("Action", null).show()
+//
+//                return@setOnClickListener
+//            }
+//            progress.dismiss()
+//            Snackbar.make(view, "Nothing to Update!", Snackbar.LENGTH_SHORT).setAction("Action", null).show()
+//
+//        }
 
-            progress.show()
-            progress.setTitle("Updating...")
-            progress.setCancelable(false)
 
-            if (selectedPhotoUri != null)
-            {
-                Log.d("ProfileFragment", "Uploading Image to Firebase Storage")
-                uploadImageToFirebase()
-
-
-                Log.d("ProfileFragment", "Progress Bar Dismissed")
-                progress.dismiss()
-                Snackbar.make(view, "Profile Updated", Snackbar.LENGTH_SHORT).setAction("Action", null).show()
-
-                return@setOnClickListener
-            }
-            progress.dismiss()
-            Snackbar.make(view, "Nothing to Update!", Snackbar.LENGTH_SHORT).setAction("Action", null).show()
-
-        }
-
-
-        profileDetailEditBtn.setOnClickListener {
+        profileBioTxt.setOnClickListener {
             val editInputDialog = LayoutInflater.from(activity).inflate(R.layout.profile_edit_dialog, null)
             val dialogBuilder = AlertDialog.Builder(activity!!)
                 .setView(editInputDialog)
@@ -132,18 +138,20 @@ class ProfileFragment : Fragment() {
                 .show()
 
             editInputDialog.changeProfileData.setOnClickListener {
-                profileUserNameText.setText(editInputDialog.inputProfileUserName.text.toString())
+                progress.setMessage("Updating ${profileUserNameText.text} Bio")
+                progress.show()
                 profileBioTxt.setText(editInputDialog.inputProfileUserBio.text.toString())
                 dialogBuilder.dismiss()
+                databaseRef.child("Users").child(user.uid).child("userBio").setValue(profileBioTxt.text)
+                progress.dismiss()
 
             }
         }
 
 
-
     }
 
-    private fun uploadImageToFirebase(){
+    private fun uploadImageToFirebase() {
 //        val fileName = UUID.randomUUID().toString()
 
         val fileName = user?.uid.toString()
@@ -155,10 +163,17 @@ class ProfileFragment : Fragment() {
                 Log.d("ProfileFragment", "Successfully Uploaded Image : ${it.metadata?.path}")
 
                 ref.downloadUrl.addOnSuccessListener {
-//                    it.toString()
+                    //                    it.toString()
 
 
-                    val data = User("${user?.uid}","${profileUserNameText.text}","${user?.email}","${inputProfileUserBio.text}","${it.toString()}")
+                    val data = User(
+                        "${user?.uid}",
+                        "${profileUserNameText.text}",
+                        "${user?.email}",
+                        "${profileUserNameText.text}",
+                        "${inputProfileUserBio?.text}",
+                        "${it}"
+                    )
                     databaseRef.child("Users").child("${user?.uid}")
                         .setValue(data)
 //                        .child("profileImageUrl").setValue(it.toString())
@@ -176,8 +191,9 @@ class ProfileFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null)
-        {
+        if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
+            progress.setTitle("Updating Profile Image")
+            progress.show()
             Log.d("ProfileFragment", "Photo was selected")
 
             selectedPhotoUri = data.data
@@ -189,9 +205,9 @@ class ProfileFragment : Fragment() {
             profileSeletPhotoBtn.alpha = 0f
 //            val bitmapDrawable = BitmapDrawable(bitmap)
 //            profileSeletPhotoBtn.setBackgroundDrawable(bitmapDrawable)
-
-        }
-        else{
+            uploadImageToFirebase()
+            progress.dismiss()
+        } else {
 
         }
     }

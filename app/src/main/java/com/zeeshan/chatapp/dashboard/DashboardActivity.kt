@@ -1,15 +1,11 @@
 package com.zeeshan.chatapp.dashboard
 
 import android.app.AlertDialog
-import android.app.ProgressDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.design.internal.NavigationMenuItemView
 import android.support.design.widget.BottomNavigationView
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -72,17 +68,17 @@ class DashboardActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-
         when(item?.itemId){
+
             R.id.menu_sign_out -> {
                 showPopup()
-//                Toast.makeText(this, "Signing Out", Toast.LENGTH_SHORT).show()
                 return true
             }
 
             R.id.menu_profile -> {
-                supportFragmentManager.beginTransaction().replace(R.id.dashboardContainer, ProfileFragment()).addToBackStack(null).commit()
-                Toast.makeText(this, "Profile Setting Icon Clilcked", Toast.LENGTH_SHORT).show()
+                val fragment = supportFragmentManager.beginTransaction().replace(R.id.dashboardContainer, ProfileFragment()).addToBackStack(null)
+                        Toast.makeText(this, "Profile Setting Icon Clilcked", Toast.LENGTH_SHORT).show()
+                        fragment.commit()
                 return true
             }
         }
@@ -116,7 +112,6 @@ class DashboardActivity : AppCompatActivity() {
             override fun onClick(dialog: DialogInterface?, which: Int) {
                 create.dismiss()
             }
-
         })
         dialogBuilder.create()
         dialogBuilder.show()

@@ -24,5 +24,7 @@
     <string name="sender_message">Sender Message</string>
     <string name="reciever_message">Reciever Message</string>
     <string name="edit_detail_icon">Edit Detail Icon</string>
+    <string name="update_bio">Update Bio</string>
+    <string name="chat">Chat</string>
 
 </resources>
