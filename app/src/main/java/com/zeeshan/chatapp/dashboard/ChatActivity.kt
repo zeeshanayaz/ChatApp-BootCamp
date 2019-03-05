@@ -55,7 +55,13 @@ class ChatActivity : AppCompatActivity() {
 //        Log.v("Chat","${userChatList.size - 1}")
 //        chatMessageListRecycler.scrollToPosition(userChatList.size - 1)
 
+
         recieveMessages()
+
+
+
+
+
 
 //        (chatMessageListRecycler.layoutManager as LinearLayoutManager).scrollToPosition(userChatList.lastIndex)
 
@@ -87,6 +93,7 @@ class ChatActivity : AppCompatActivity() {
 
 
     }
+
 
     private fun recieveMessages() {
         val currUser = AppPref(this@ChatActivity).getUser()
@@ -126,5 +133,9 @@ class ChatActivity : AppCompatActivity() {
                 }
 
             })
+    }
+
+    private fun getFCMRegistrationToken(onComplete: (tokens: MutableList<String>) -> Unit){
+
     }
 }

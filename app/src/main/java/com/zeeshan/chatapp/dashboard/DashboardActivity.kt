@@ -3,15 +3,16 @@ package com.zeeshan.chatapp.dashboard
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
+import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.iid.FirebaseInstanceId
 import com.zeeshan.chatapp.R
 import com.zeeshan.chatapp.model.User
 import com.zeeshan.chatapp.registration.MainActivity
@@ -19,9 +20,7 @@ import com.zeeshan.chatapp.utils.AppPref
 
 class DashboardActivity : AppCompatActivity() {
 
-    private lateinit var databaseRef : DatabaseReference
-
-
+    private lateinit var databaseRef: DatabaseReference
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,28 +29,28 @@ class DashboardActivity : AppCompatActivity() {
 
         supportFragmentManager
             .beginTransaction()
-            .add(R.id.dashboardContainer, UserListFragment())
+            .add(R.id.dashboardContainer, UserListFragment(), "UserListFragement")
             .commit()
 
         val user = FirebaseAuth.getInstance().currentUser
         databaseRef = FirebaseDatabase.getInstance().reference
 
-
-
 //        println("User "+user?.email)
 
-        val dashboardBottomNavigation : BottomNavigationView = findViewById(R.id.bottomNavigationView)
+        val dashboardBottomNavigation: BottomNavigationView = findViewById(R.id.bottomNavigationView)
         dashboardBottomNavigation.setOnNavigationItemSelectedListener {
-            when(it.itemId){
+            when (it.itemId) {
                 R.id.navigation_all_user -> {
+//                    this.supportFragmentManager.getFragment()
+
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.dashboardContainer, UserListFragment())
+                        .replace(R.id.dashboardContainer, UserListFragment(), "UserListFragement")
                         .commit()
                     true
                 }
                 R.id.navigation_chats -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.dashboardContainer, RecentChatFragment())
+                        .replace(R.id.dashboardContainer, RecentChatFragment(), "RecentChatFragement")
                         .commit()
                     true
                 }
@@ -65,10 +64,11 @@ class DashboardActivity : AppCompatActivity() {
         val inflater = menuInflater
         inflater.inflate(R.menu.dashboard_menu, menu)
         return super.onCreateOptionsMenu(menu)
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when(item?.itemId){
+        when (item?.itemId) {
 
             R.id.menu_sign_out -> {
                 showPopup()
@@ -76,9 +76,11 @@ class DashboardActivity : AppCompatActivity() {
             }
 
             R.id.menu_profile -> {
-                val fragment = supportFragmentManager.beginTransaction().replace(R.id.dashboardContainer, ProfileFragment()).addToBackStack(null)
-                        Toast.makeText(this, "Profile Setting Icon Clilcked", Toast.LENGTH_SHORT).show()
-                        fragment.commit()
+                val fragment =
+                    supportFragmentManager.beginTransaction().replace(R.id.dashboardContainer, ProfileFragment())
+                        .addToBackStack(null)
+                Toast.makeText(this, "Profile Setting Icon Clilcked", Toast.LENGTH_SHORT).show()
+                fragment.commit()
                 return true
             }
         }
@@ -86,7 +88,7 @@ class DashboardActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun showPopup(){
+    private fun showPopup() {
         val dialogBuilder = AlertDialog.Builder(this@DashboardActivity)
         val create: AlertDialog = dialogBuilder.create()
 
@@ -95,7 +97,7 @@ class DashboardActivity : AppCompatActivity() {
         dialogBuilder.setTitle("Signing Out!")
         dialogBuilder.setMessage("Do you want to Sign out!")
 
-        dialogBuilder.setPositiveButton("Yes", object : DialogInterface.OnClickListener{
+        dialogBuilder.setPositiveButton("Yes", object : DialogInterface.OnClickListener {
             override fun onClick(dialog: DialogInterface?, which: Int) {
                 FirebaseAuth.getInstance().signOut()
                 val intent = Intent(this@DashboardActivity, MainActivity::class.java)
@@ -103,12 +105,12 @@ class DashboardActivity : AppCompatActivity() {
 
                 finish()
 
-                val user = User("","","","","","")
+                val user = User("", "", "", "", "", "")
                 AppPref(this@DashboardActivity).setUser(user)
             }
         })
 
-        dialogBuilder.setNegativeButton("No", object : DialogInterface.OnClickListener{
+        dialogBuilder.setNegativeButton("No", object : DialogInterface.OnClickListener {
             override fun onClick(dialog: DialogInterface?, which: Int) {
                 create.dismiss()
             }

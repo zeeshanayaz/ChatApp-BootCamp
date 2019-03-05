@@ -27,21 +27,26 @@
                 android:noHistory="true"
                 android:windowSoftInputMode="adjustPan"
 
-                >
+        >
         </activity>
         <activity
                 android:name=".dashboard.DashboardActivity"
                 android:label="@string/dashboard"
-                android:windowSoftInputMode="adjustPan"
-                >
+                android:windowSoftInputMode="adjustResize"
+        >
         </activity>
         <activity
                 android:name=".dashboard.ChatActivity"
-                android:windowSoftInputMode="adjustPan"
+                android:windowSoftInputMode="adjustResize"
                 android:label="@string/chat"
-                >
+        >
         </activity>
 
+        <service android:name=".firebaseMessaging.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

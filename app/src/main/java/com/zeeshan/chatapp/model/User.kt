@@ -8,7 +8,8 @@ data class User(
     var userEmail: String = "",
     var password: String = "",
     var userBio: String? = null,
-    var profileImageUrl: String? = ""
+    var profileImageUrl: String? = "",
+    var refistrationTokenFCM : MutableList<String>
 ) : Serializable {
 
     override fun toString(): String {
