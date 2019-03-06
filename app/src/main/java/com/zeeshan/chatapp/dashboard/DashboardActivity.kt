@@ -29,7 +29,7 @@ class DashboardActivity : AppCompatActivity() {
 
         supportFragmentManager
             .beginTransaction()
-            .add(R.id.dashboardContainer, UserListFragment(), "UserListFragement")
+            .add(R.id.dashboardContainer, RecentChatFragment(), "RecentChatFragement")
             .commit()
 
         val user = FirebaseAuth.getInstance().currentUser
