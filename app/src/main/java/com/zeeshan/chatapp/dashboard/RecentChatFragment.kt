@@ -53,7 +53,7 @@ class RecentChatFragment : Fragment() {
 
         recyclerView.adapter = recentChatViewAdapter
 
-        Toast.makeText(activity, "View", Toast.LENGTH_SHORT).show()
+//        Toast.makeText(activity, "View", Toast.LENGTH_SHORT).show()
 
 
         fetcingChatIDFromFirebase()
@@ -92,7 +92,7 @@ class RecentChatFragment : Fragment() {
                     }
 //                    Log.v("Key", it.key.toString())
                 }
-                Toast.makeText(activity,"Recent Chat Id",Toast.LENGTH_SHORT).show()
+//                Toast.makeText(activity,"Recent Chat Id",Toast.LENGTH_SHORT).show()
 
                 Log.v("KEYS", recentChatID.toString())
             }
@@ -145,7 +145,7 @@ class RecentChatFragment : Fragment() {
 //                        }
                     }
                 }
-                Toast.makeText(activity,"Recycler View Updated",Toast.LENGTH_SHORT).show()
+//                Toast.makeText(activity,"Recycler View Updated",Toast.LENGTH_SHORT).show()
 
             }
 
@@ -154,6 +154,15 @@ class RecentChatFragment : Fragment() {
             }
 
         })
+    }
+    override fun onStop() {
+        super.onStop()
+        Log.v("RECENTCHAT", "User List Fragment on Stop ")
+//        making Array List null
+        recentChatID.clear()
+        recentUserList.clear()
+
+//        println(userList)
     }
 
 //    private fun fetFCM() {

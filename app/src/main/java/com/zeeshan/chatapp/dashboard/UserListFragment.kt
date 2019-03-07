@@ -52,7 +52,7 @@ class UserListFragment : Fragment() {
         recyclerView.adapter = userViewAdapter
         fetchDataFromFirebase()
 
-        fetFCM()
+//        fetFCM()
 
 
 
