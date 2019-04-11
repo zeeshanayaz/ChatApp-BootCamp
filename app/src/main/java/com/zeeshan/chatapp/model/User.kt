@@ -13,7 +13,7 @@ data class User(
 ) : Serializable {
 
     override fun toString(): String {
-        return "${userEmail.toString()}"
+        return userEmail.toString()
     }
 
     override fun equals(other: Any?): Boolean {

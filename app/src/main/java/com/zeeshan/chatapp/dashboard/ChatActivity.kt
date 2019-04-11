@@ -26,6 +26,7 @@ class ChatActivity : AppCompatActivity() {
     var userChatList: ArrayList<ChatMessage> = ArrayList()
     lateinit var user: User
 
+    lateinit var currUser: User
 
     override fun onStart() {
         super.onStart()
@@ -67,7 +68,7 @@ class ChatActivity : AppCompatActivity() {
 
         sendMessageButton.setOnClickListener {
             if (!messageTextField.text.trim().isNullOrEmpty()){
-                val currUser = AppPref(this@ChatActivity).getUser()
+                currUser = AppPref(this@ChatActivity).getUser()!!
 
                 var chatID = user.userID + "-" + currUser?.userID
                 val list = chatID.split("-")

@@ -32,5 +32,6 @@
             app:itemTextColor="@color/colorIcons"
             app:itemIconTint="@color/colorIcons">
 
+
     </android.support.design.widget.BottomNavigationView>
 </android.support.constraint.ConstraintLayout>

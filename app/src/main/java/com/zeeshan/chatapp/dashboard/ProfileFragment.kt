@@ -35,6 +35,7 @@ class ProfileFragment : Fragment() {
     val user = FirebaseAuth.getInstance().currentUser
     private lateinit var databaseRef: DatabaseReference
     var selectedPhotoUri: Uri? = null
+    val userRef = databaseRef.child("Users").child(user!!.uid)
     private lateinit var progress: ProgressDialog
 //    private lateinit var userData : User
 
@@ -53,7 +54,6 @@ class ProfileFragment : Fragment() {
         progress = ProgressDialog(activity)
         databaseRef = FirebaseDatabase.getInstance().reference
 //        userData = AppPref(activity!!).getUser()
-        val userRef = databaseRef.child("Users").child(user!!.uid)
 
         userRef.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(dataSnapshot: DatabaseError) {
@@ -78,12 +78,12 @@ class ProfileFragment : Fragment() {
 //                    profileBioTxt.text = "  "
                     profileBioTxt.setTextColor(resources.getColor(R.color.colorSecondaryText))
                 }
-                if (!userData?.profileImageUrl.isNullOrEmpty()){
+                if (!userData?.profileImageUrl.isNullOrEmpty()) {
 
 //                    Loading User Image from Download URi using Glide Library
                     profileSeletPhotoBtn.alpha = 0f
 
-                    Glide.with(activity!!).applyDefaultRequestOptions(RequestOptions().apply(){
+                    Glide.with(activity!!).applyDefaultRequestOptions(RequestOptions().apply() {
                         placeholder(CircularProgressDrawable(activity!!).apply {
                             strokeWidth = 2f
                             centerRadius = 50f
@@ -130,8 +130,8 @@ class ProfileFragment : Fragment() {
 //        }
 
 
-        profileBioTxt.setOnClickListener {
-            val editInputDialog = LayoutInflater.from(activity).inflate(R.layout.profile_edit_dialog, null)
+        profileBioTxt.setOnClickListener { bioClick ->
+            val editInputDialog = LayoutInflater.from(activity).inflate(R.layout.profile_edit_dialog,null)
             val dialogBuilder = AlertDialog.Builder(activity!!)
                 .setView(editInputDialog)
                 .setTitle("Update User Detail.")
@@ -142,7 +142,7 @@ class ProfileFragment : Fragment() {
                 progress.show()
                 profileBioTxt.setText(editInputDialog.inputProfileUserBio.text.toString())
                 dialogBuilder.dismiss()
-                databaseRef.child("Users").child(user.uid).child("userBio").setValue(profileBioTxt.text)
+                databaseRef.child("Users").child(user!!.uid).child("userBio").setValue(profileBioTxt.text)
                 progress.dismiss()
 
             }
@@ -163,21 +163,20 @@ class ProfileFragment : Fragment() {
                 Log.d("ProfileFragment", "Successfully Uploaded Image : ${it.metadata?.path}")
 
                 ref.downloadUrl.addOnSuccessListener {
-                    //                    it.toString()
+                                        val data = User(
+                                            "${user?.uid}",
+                                            "${profileUserNameText.text}",
+                                            "${user?.email}",
+                                            "${profileUserNameText.text}",
+                                            "${inputProfileUserBio.text}",
+                                            "${it}"
+                                        )
+                    //                    databaseRef.child("Users").child("${user?.uid}")
+                    //                        .setValue(data)
+                    ////                        .child("profileImageUrl").setValue(it.toString())
+                    //                    println("Data: $data")
 
-
-                    val data = User(
-                        "${user?.uid}",
-                        "${profileUserNameText.text}",
-                        "${user?.email}",
-                        "${profileUserNameText.text}",
-                        "${inputProfileUserBio?.text}",
-                        "${it}"
-                    )
-                    databaseRef.child("Users").child("${user?.uid}")
-                        .setValue(data)
-//                        .child("profileImageUrl").setValue(it.toString())
-                    println("Data: $data")
+                    userRef.child("profileImageUrl").setValue(it.toString())
                     AppPref(activity!!).setUser(data)
 
                     Log.d("ProfileFragment", "Successfully Saved Image URL : $it")

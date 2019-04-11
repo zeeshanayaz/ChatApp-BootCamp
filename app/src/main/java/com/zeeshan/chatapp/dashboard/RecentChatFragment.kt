@@ -11,7 +11,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.iid.InstanceIdResult
 import com.zeeshan.chatapp.R
 import com.zeeshan.chatapp.adapter.UserListAdapter
 import com.zeeshan.chatapp.model.User
@@ -58,7 +63,7 @@ class RecentChatFragment : Fragment() {
 
         fetcingChatIDFromFirebase()
 
-//        fetFCM()
+        fetFCM()
 
 
         return view
@@ -165,28 +170,28 @@ class RecentChatFragment : Fragment() {
 //        println(userList)
     }
 
-//    private fun fetFCM() {
-//
-//        val token = FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener(object :
-//            OnCompleteListener<InstanceIdResult> {
-//            override fun onComplete(task: Task<InstanceIdResult>) {
-//                if (!task.isSuccessful) {
-//                    Toast.makeText(activity!!, "unable to get Fcm", Toast.LENGTH_SHORT).show()
-//                    return
-//                }
-//                val token = task.result!!.token
-//                Log.d("FCM", token)
-//                sendTokenToServer(token)
-//            }
-//        })
-//    }
+    private fun fetFCM() {
+
+        val token = FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener(object :
+            OnCompleteListener<InstanceIdResult> {
+            override fun onComplete(task: Task<InstanceIdResult>) {
+                if (!task.isSuccessful) {
+                    Toast.makeText(activity!!, "unable to get Fcm", Toast.LENGTH_SHORT).show()
+                    return
+                }
+                val token = task.result!!.token
+                Log.d("FCM", token)
+                sendTokenToServer(token)
+            }
+        })
+    }
 
 
-//    private fun sendTokenToServer(token: String) {
-//        FirebaseDatabase.getInstance().getReference()
-//            .child("Users")
-//            .child(FirebaseAuth.getInstance().currentUser?.uid!!)
-//            .child("fcm").setValue(token)
-//    }
+    private fun sendTokenToServer(token: String) {
+        FirebaseDatabase.getInstance().getReference()
+            .child("Users")
+            .child(FirebaseAuth.getInstance().currentUser?.uid!!)
+            .child("fcm").setValue(token)
+    }
 
 }
